@@ -62,4 +62,31 @@ public partial class _Default : System.Web.UI.Page
         TextBox3.Text = dt.Rows[0][3].ToString();
         ViewState["user_id"] = btn.CommandArgument;
     }
+    protected void Button3_Click(object sender, EventArgs e)
+    {
+        SqlCommand cmd = new SqlCommand("UPDATE [users] SET [fullname] = @fullname, [email] = @email, [password] = @password WHERE [id] = @id", con);
+        cmd.Parameters.AddWithValue("@fullname", TextBox1.Text.Trim());
+        cmd.Parameters.AddWithValue("@email", TextBox2.Text.Trim());
+        cmd.Parameters.AddWithValue("@password", TextBox3.Text.Trim());
+        cmd.Parameters.AddWithValue("@id", ViewState["user_id"]);
+        con.Open();
+        int s = cmd.ExecuteNonQuery();
+        con.Close();
+        if (s == 1)
+        {
+            TextBox1.Text = string.Empty;
+            TextBox2.Text = string.Empty;
+            TextBox3.Text = string.Empty;
+            Print();
+            Literal1.Text = "user Updated successfully.";
+        }
+        else
+        {
+            TextBox1.Text = string.Empty;
+            TextBox2.Text = string.Empty;
+            TextBox3.Text = string.Empty;
+            Literal1.Text = "Error!";
+        }
+        
+    }
 }
